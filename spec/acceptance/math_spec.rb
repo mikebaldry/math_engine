@@ -15,6 +15,7 @@ describe "Evaluating expressions" do
 		evaluate("10 * (3 * 2) + (55 - 5) / (2.5 * (3 + 1))").should == 65
 		evaluate("2 * 2 ^ 5").should == 64
 		evaluate("(2 * 2) ^ 5").should == 1024
+		evaluate("2 * 2 % 5").should == 4
 	end
 	
 	it "should have the correct values when using variables" do

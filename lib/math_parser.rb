@@ -7,7 +7,7 @@ class MathParser
 		#statement = { <identifier> <assignment> } expression <end>
 		#expression = term { ( <addition> | <subtraction> ) term } 
 		#term = exp { ( <multiplication> | <division> ) exp }
-		#exp = factor { <exponent> factor }
+		#exp = factor { ( <exponent> | <modulus> ) factor }
 		#factor = <identifier> | <number> | <open_parenthesis> expression <close_parenthesis>
 		statement
 	end
@@ -55,9 +55,10 @@ class MathParser
 	def exp
 	  left = factor
 		result = nil
-		while [:exponent].include? current.type
+		while [:exponent, :modulus].include? current.type
+			node_type = current.type == :exponent ? ExponentNode : ModulusNode
 			next!
-			left = ExponentNode.new(left, factor)
+			left = node_type.new(left, factor)
 		end
 		result || left
   end
@@ -161,6 +162,11 @@ class MathParser
 				left.evaluate(engine) ** right.evaluate(engine)
 			end
 		end
+		class ModulusNode < Node
+		  def evaluate(engine)
+		    left.evaluate(engine) % right.evaluate(engine)
+	    end
+	  end
 		
 		
 	  class ParseError < StandardError

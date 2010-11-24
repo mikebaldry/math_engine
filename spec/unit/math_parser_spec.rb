@@ -99,6 +99,19 @@ describe "Parsing expressions" do
     subject.left.right.right.class.should == MathParser::LiteralNumberNode
     subject.left.right.right.value.should == 5
   end
+  
+  it "should handle modulus precendence as higher than multiplication" do
+    subject = build_ast("2 * 2 % 5")
+    subject.class.should == MathParser::ExpressionNode
+    subject.left.class.should == MathParser::MultiplicationNode
+    subject.left.left.class.should == MathParser::LiteralNumberNode
+    subject.left.left.value == 2
+    subject.left.right.class.should == MathParser::ModulusNode
+    subject.left.right.left.class.should == MathParser::LiteralNumberNode
+    subject.left.right.left.value.should == 2
+    subject.left.right.right.class.should == MathParser::LiteralNumberNode
+    subject.left.right.right.value.should == 5
+  end
 end
 
 describe "Invalid syntax" do
