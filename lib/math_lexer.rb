@@ -7,6 +7,7 @@ MathLexer = Lexr.that {
 	matches '-' => :subtraction
 	matches '*' => :multiplication
 	matches '/' => :division
+	matches '^' => :exponent
 	matches '(' => :open_parenthesis
 	matches ')' => :close_parenthesis
 }

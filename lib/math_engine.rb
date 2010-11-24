@@ -23,7 +23,7 @@ class MathEngine
   end
   
   def variables
-    @variables.keys
+    @variables.keys.collect { |k| k.to_s }.sort.collect { |k| k.to_sym }
   end
   
   class UnknownVariableError < StandardError

@@ -13,6 +13,8 @@ describe "Evaluating expressions" do
 		evaluate("3.14159 * (200 / 180) + 1").should be_close 4.49, 0.001 
 		evaluate("10 * (3 * 2) + (55 - 5) / (2.5 * 2)").should == 70
 		evaluate("10 * (3 * 2) + (55 - 5) / (2.5 * (3 + 1))").should == 65
+		evaluate("2 * 2 ^ 5").should == 64
+		evaluate("(2 * 2) ^ 5").should == 1024
 	end
 	
 	it "should have the correct values when using variables" do

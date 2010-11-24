@@ -6,7 +6,8 @@ class MathParser
 	def parse
 		#statement = { <identifier> <assignment> } expression <end>
 		#expression = term { ( <addition> | <subtraction> ) term } 
-		#term = factor { ( <multiplication> | <division> ) factor }
+		#term = exp { ( <multiplication> | <division> ) exp }
+		#exp = factor { <exponent> factor }
 		#factor = <identifier> | <number> | <open_parenthesis> expression <close_parenthesis>
 		statement
 	end
@@ -41,15 +42,25 @@ class MathParser
 	end
 	
 	def term
-		left = factor
+		left = exp
 		result = nil
 		while [:multiplication, :division].include? current.type
 			node_type = current.type == :multiplication ? MultiplicationNode : DivisionNode
 			next!
-			left = node_type.new(left, factor)
+			left = node_type.new(left, exp)
 		end
 		result || left
 	end
+	
+	def exp
+	  left = factor
+		result = nil
+		while [:exponent].include? current.type
+			next!
+			left = ExponentNode.new(left, factor)
+		end
+		result || left
+  end
 	
 	def factor
 	  if [:number, :identifier].include? current.type
@@ -145,6 +156,12 @@ class MathParser
 				left.evaluate(engine) / right.evaluate(engine)
 			end
 		end
+		class ExponentNode < Node
+			def evaluate(engine)
+				left.evaluate(engine) ** right.evaluate(engine)
+			end
+		end
+		
 		
 	  class ParseError < StandardError
 	    def initialize(message)

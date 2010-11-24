@@ -17,6 +17,6 @@ describe "Getting and setting variables" do
     subject.set(:blah, 123)
     subject.set(:abc, 10)
     
-    subject.variables.should == [:blah, :abc]
+    subject.variables.should == [:abc, :blah]
   end
 end
