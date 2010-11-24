@@ -14,4 +14,10 @@ describe "Evaluating expressions" do
 		evaluate("10 * (3 * 2) + (55 - 5) / (2.5 * 2)").should == 70
 		evaluate("10 * (3 * 2) + (55 - 5) / (2.5 * (3 + 1))").should == 65
 	end
+	
+	it "should have the correct values when using variables" do
+	  subject = MathEngine.new
+	  subject.evaluate("x = 1 * 2").should == 2
+	  subject.evaluate("x + 1").should == 3
+  end
 end

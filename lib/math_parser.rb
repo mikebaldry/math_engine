@@ -4,10 +4,10 @@ class MathParser
 	end
 	
 	def parse
-		#statement = expression <end>
+		#statement = { <identifier> <assignment> } expression <end>
 		#expression = term { ( <addition> | <subtraction> ) term } 
 		#term = factor { ( <multiplication> | <division> ) factor }
-		#factor = <number> | <open_parenthesis> expression <close_parenthesis>
+		#factor = <identifier> | <number> | <open_parenthesis> expression <close_parenthesis>
 		statement
 	end
 	
@@ -15,7 +15,15 @@ class MathParser
 	
 	def statement
 	  next!
-		result = expression
+	  if current.type == :identifier && peek.type == :assignment
+	    variable_name = current.value
+	    next!
+	    expect_current :assignment
+	    next!
+	    result = AssignmentNode.new(IdentifierNode.new(variable_name), expression)
+	  else 
+		  result = expression
+		end
 		next!
 		expect_current :end
 		result
@@ -44,12 +52,14 @@ class MathParser
 	end
 	
 	def factor
-		if current.type == :number
-		  result = LiteralNumberNode.new(current.value)
-		  next!
-		  return result
-	  end
-		expect_current :open_parenthesis, "number or open_parenthesis"
+	  if [:number, :identifier].include? current.type
+	    node_type = current.type == :number ? LiteralNumberNode : IdentifierNode
+	    result = node_type.new(current.value)
+	    next!
+	    return result
+    end
+    
+		expect_current :open_parenthesis, "number, variable or open_parenthesis"
 		next!
 		result = expression
 		expect_current :close_parenthesis
@@ -61,6 +71,10 @@ class MathParser
 	
 	def current
 	  @lexer.current
+  end
+  
+  def peek
+    @lexer.peek
   end
 	
 	def next!
@@ -79,42 +93,56 @@ class MathParser
 				@left, @right = left, right
 			end
 
-			def evaluate
+			def evaluate(engine)
 				raise "Evaluate not overridden in #{self.class.name}"
 			end
 		end
 
 		class LiteralNumberNode < Node
-			def evaluate
+			def evaluate(engine)
 				value
 			end
 		end
 
 		class ExpressionNode < Node
-			def evaluate
-				left.evaluate
+			def evaluate(engine)
+				left.evaluate(engine)
+			end
+		end
+		
+		class IdentifierNode < Node
+		  def evaluate(engine)
+		    engine.get value
+	    end
+	  end
+
+		class AssignmentNode < Node
+			def evaluate(engine)
+				result = right.evaluate(engine)
+				engine.set(left.value, result)
+				result
 			end
 		end
 
 		class AdditionNode < Node
-			def evaluate
-				left.evaluate + right.evaluate
+			def evaluate(engine)
+				left.evaluate(engine) + right.evaluate(engine)
 			end
 		end
 
 		class SubtractionNode < Node
-			def evaluate
-				left.evaluate - right.evaluate
+			def evaluate(engine)
+				left.evaluate(engine) - right.evaluate(engine)
 			end
 		end
 		class MultiplicationNode < Node
-			def evaluate
-				left.evaluate * right.evaluate
+			def evaluate(engine)
+				left.evaluate(engine) * right.evaluate(engine)
 			end
 		end
 		class DivisionNode < Node
-			def evaluate
-				left.evaluate / right.evaluate
+			def evaluate(engine)
+				left.evaluate(engine) / right.evaluate(engine)
 			end
 		end
 		

@@ -63,6 +63,19 @@ describe "Parsing expressions" do
 		subject.left.right.left.right.class.should == MathParser::LiteralNumberNode
 		subject.left.right.left.right.value.should == 3
   end
+  
+  it "should handle assignment of expressions" do
+    subject = build_ast("x = 10 * 10")
+    subject.class.should == MathParser::AssignmentNode
+    subject.left.class.should == MathParser::IdentifierNode
+    subject.left.value.should == :x
+    subject.right.class.should == MathParser::ExpressionNode
+    subject.right.left.class.should == MathParser::MultiplicationNode
+    subject.right.left.left.class.should == MathParser::LiteralNumberNode
+    subject.right.left.left.value.should == 10
+    subject.right.left.right.class.should == MathParser::LiteralNumberNode
+    subject.right.left.right.value.should == 10
+  end
 end
 
 describe "Invalid syntax" do

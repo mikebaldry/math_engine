@@ -21,7 +21,7 @@ spec = Gem::Specification.new do |s|
 
   # Change these as appropriate
   s.name              = "math_engine"
-  s.version           = "0.1.2"
+  s.version           = "0.1.3"
   s.summary           = "Evaluates simple mathematical expressions"
   s.author            = "Michael Baldry"
   s.email             = "michael.baldry@uswitch.com"
@@ -35,7 +35,7 @@ spec = Gem::Specification.new do |s|
   s.files             = %w(README.md) + Dir.glob("{spec,lib/**/*}")
   s.require_paths     = ["lib"]
   
-  s.add_dependency('lexr', '>= 0.2.0')
+  s.add_dependency('lexr', '>= 0.2.2')
 
   # If your tests use any gems, include them here
   s.add_development_dependency("rspec")
