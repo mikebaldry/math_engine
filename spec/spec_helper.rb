@@ -1,5 +1,5 @@
 require 'spec'
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'math_engine'))
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'math_engine'))
 
 def evaluate(line)
   MathEngine.new.evaluate(line)

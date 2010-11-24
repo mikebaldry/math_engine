@@ -21,7 +21,7 @@ spec = Gem::Specification.new do |s|
 
   # Change these as appropriate
   s.name              = "math_engine"
-  s.version           = "0.1.0"
+  s.version           = "0.1.2"
   s.summary           = "Evaluates simple mathematical expressions"
   s.author            = "Michael Baldry"
   s.email             = "michael.baldry@uswitch.com"
@@ -32,7 +32,7 @@ spec = Gem::Specification.new do |s|
   s.rdoc_options      = %w(--main README.md)
 
   # Add any extra files to include in the gem (like your README)
-  s.files             = %w(math_engine.rb README.md) + Dir.glob("{spec,lib/**/*}")
+  s.files             = %w(README.md) + Dir.glob("{spec,lib/**/*}")
   s.require_paths     = ["lib"]
   
   s.add_dependency('lexr', '>= 0.2.0')
