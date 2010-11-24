@@ -34,6 +34,8 @@ spec = Gem::Specification.new do |s|
   # Add any extra files to include in the gem (like your README)
   s.files             = %w(math_engine.rb README.md) + Dir.glob("{spec,lib/**/*}")
   s.require_paths     = ["lib"]
+  
+  s.add_dependency('lexr', '>= 0.2.0')
 
   # If your tests use any gems, include them here
   s.add_development_dependency("rspec")
