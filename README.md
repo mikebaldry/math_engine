@@ -1,6 +1,6 @@
 # MathEngine
 
-MathEngine is a lightweight mathematical expression parser and evaluator. It currently handles addition, subtraction, multiplication, division and the use of variables. 
+MathEngine is a lightweight mathematical expression parser and evaluator. It currently handles addition, subtraction, multiplication, division, exponent, modulus and the use of variables. 
 
 Install with
 

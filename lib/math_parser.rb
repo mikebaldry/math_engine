@@ -167,8 +167,7 @@ class MathParser
 		    left.evaluate(engine) % right.evaluate(engine)
 	    end
 	  end
-		
-		
+
 	  class ParseError < StandardError
 	    def initialize(message)
 	      @message = message
