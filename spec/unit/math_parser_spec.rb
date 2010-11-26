@@ -112,6 +112,104 @@ describe "Parsing expressions" do
     subject.left.right.right.class.should == MathParser::LiteralNumberNode
     subject.left.right.right.value.should == 5
   end
+  
+  it "should handle function calls with no parameters" do
+    subject = build_ast("2 * sin()")
+    subject.class.should == MathParser::ExpressionNode
+    subject.left.class.should == MathParser::MultiplicationNode
+    subject.left.left.class.should == MathParser::LiteralNumberNode
+    subject.left.left.value.should == 2
+    subject.left.right.class.should == MathParser::FunctionCallNode
+    subject.left.right.left.should == :sin
+  end
+  
+  it "should handle function calls with 1 literal parameter" do
+    subject = build_ast("2 * sin(2)")
+    subject.class.should == MathParser::ExpressionNode
+    subject.left.class.should == MathParser::MultiplicationNode
+    subject.left.left.class.should == MathParser::LiteralNumberNode
+    subject.left.left.value.should == 2
+    subject.left.right.class.should == MathParser::FunctionCallNode
+    subject.left.right.left.should == :sin
+    subject.left.right.right.class.should == MathParser::ParametersNode
+    subject.left.right.right.left.class.should == MathParser::ExpressionNode
+    subject.left.right.right.left.left.class.should == MathParser::LiteralNumberNode
+    subject.left.right.right.left.left.value.should == 2
+  end
+  
+  it "should handle function calls with 2 literal parameter" do
+    subject = build_ast("2 * something(1, 2)")
+    subject.class.should == MathParser::ExpressionNode
+    subject.left.class.should == MathParser::MultiplicationNode
+    subject.left.left.class.should == MathParser::LiteralNumberNode
+    subject.left.left.value.should == 2
+    subject.left.right.class.should == MathParser::FunctionCallNode
+    subject.left.right.left.should == :something
+    subject.left.right.right.class.should == MathParser::ParametersNode
+    subject.left.right.right.left.class.should == MathParser::ExpressionNode
+    subject.left.right.right.left.left.class.should == MathParser::LiteralNumberNode
+    subject.left.right.right.left.left.value.should == 1
+    subject.left.right.right.right.class.should == MathParser::ParametersNode
+    subject.left.right.right.right.left.class.should == MathParser::ExpressionNode
+    subject.left.right.right.right.left.left.class.should == MathParser::LiteralNumberNode
+    subject.left.right.right.right.left.left.value.should == 2
+  end
+  
+  it "should handle function calls with more literal parameter" do
+    subject = build_ast("2 * something(1, 2, 3)")
+    subject.class.should == MathParser::ExpressionNode
+    subject.left.class.should == MathParser::MultiplicationNode
+    subject.left.left.class.should == MathParser::LiteralNumberNode
+    subject.left.left.value.should == 2
+    subject.left.right.class.should == MathParser::FunctionCallNode
+    subject.left.right.left.should == :something
+    subject.left.right.right.class.should == MathParser::ParametersNode
+    subject.left.right.right.left.class.should == MathParser::ExpressionNode
+    subject.left.right.right.left.left.class.should == MathParser::LiteralNumberNode
+    subject.left.right.right.left.left.value.should == 1
+    subject.left.right.right.right.class.should == MathParser::ParametersNode
+    subject.left.right.right.right.left.class.should == MathParser::ExpressionNode
+    subject.left.right.right.right.left.left.class.should == MathParser::LiteralNumberNode
+    subject.left.right.right.right.left.left.value.should == 2
+    subject.left.right.right.right.right.class.should == MathParser::ParametersNode
+    subject.left.right.right.right.right.left.class.should == MathParser::ExpressionNode
+    subject.left.right.right.right.right.left.left.class.should == MathParser::LiteralNumberNode
+    subject.left.right.right.right.right.left.left.value.should == 3
+  end
+  
+  it "should handle function calls with 1 expression parameter" do
+    subject = build_ast("sin(2 * 4)")
+    subject.class.should == MathParser::ExpressionNode
+    subject.left.class.should == MathParser::FunctionCallNode
+    subject.left.left.should == :sin
+    subject.left.right.class.should == MathParser::ParametersNode
+    subject.left.right.left.class.should == MathParser::ExpressionNode
+    subject.left.right.left.left.class.should == MathParser::MultiplicationNode
+    subject.left.right.left.left.left.class.should == MathParser::LiteralNumberNode
+    subject.left.right.left.left.left.value.should == 2
+    subject.left.right.left.left.right.class.should == MathParser::LiteralNumberNode
+    subject.left.right.left.left.right.value.should == 4
+  end
+  
+  it "should handle nested function calls" do
+    subject = build_ast("sin(2 * sin(4))")
+    subject.class.should == MathParser::ExpressionNode
+    subject.left.class.should == MathParser::FunctionCallNode
+    subject.left.left.should == :sin
+    subject.left.right.class.should == MathParser::ParametersNode
+    subject.left.right.left.class.should == MathParser::ExpressionNode
+    subject.left.right.left.left.class.should == MathParser::MultiplicationNode
+    subject.left.right.left.left.left.class.should == MathParser::LiteralNumberNode
+    subject.left.right.left.left.left.value.should == 2
+    subject.left.right.left.left.right.class.should == MathParser::FunctionCallNode
+    subject.left.right.left.left.right.left.should == :sin
+    subject.left.right.left.left.right.right.should == MathParser::ParametersNode
+    subject.left.right.left.left.right.right.left.should == MathParser::ExpressionNode
+    subject.left.right.left.left.right.right.left.left.should == MathParser::LiteralNumberNode
+    subject.left.right.left.left.right.right.left.left.value.should == 4
+    
+    
+  end
 end
 
 describe "Invalid syntax" do
@@ -125,5 +223,9 @@ describe "Invalid syntax" do
   
   it "should raise an exception when missing a closing parenthesis" do
     lambda { build_ast("(((123))") }.should raise_error MathParser::ParseError
+  end
+  
+  it "should raise an exception when missing a parameter" do
+    lambda { build_ast("abc(1, )") }.should raise_error MathParser::ParseError
   end
 end

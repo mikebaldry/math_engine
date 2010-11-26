@@ -23,4 +23,10 @@ describe "Evaluating expressions" do
 	  subject.evaluate("x = 1 * 2").should == 2
 	  subject.evaluate("x + 1").should == 3
   end
+  
+  it "should be able to call functions and use the result in calculations" do
+    subject = MathEngine.new
+    subject.define(:double_it, lambda { |x| x * 2 })
+    subject.evaluate("10 * double_it(2)").should == 40
+  end
 end

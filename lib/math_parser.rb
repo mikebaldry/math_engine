@@ -5,10 +5,13 @@ class MathParser
 	
 	def parse
 		#statement = { <identifier> <assignment> } expression <end>
-		#expression = term { ( <addition> | <subtraction> ) term } 
+		#expression = term { ( <addition> | <subtraction> ) term }
 		#term = exp { ( <multiplication> | <division> ) exp }
 		#exp = factor { ( <exponent> | <modulus> ) factor }
-		#factor = <identifier> | <number> | <open_parenthesis> expression <close_parenthesis>
+		#factor = <call> | <identifier> | <number> | ( <open_parenthesis> expression <close_parenthesis> )
+    #call = <identifier> <open_parenthesis> { call_parameter_list } <close_parenthesis>
+    #call_parameter_list = call_parameter | ( call_parameter_list <comma> call_parameter )
+    #call_parameter = <identifier>
 		statement
 	end
 	
@@ -64,11 +67,18 @@ class MathParser
   end
 	
 	def factor
-	  if [:number, :identifier].include? current.type
-	    node_type = current.type == :number ? LiteralNumberNode : IdentifierNode
-	    result = node_type.new(current.value)
+	  if current.type == :number
+	    result = LiteralNumberNode.new(current.value)
 	    next!
 	    return result
+	  elsif current.type == :identifier
+	    if peek.type == :open_parenthesis
+	      result = call
+	    else
+	      result = IdentifierNode.new(current.value)
+      end
+      next!
+      return result
     end
     
 		expect_current :open_parenthesis, "number, variable or open_parenthesis"
@@ -78,6 +88,32 @@ class MathParser
 		next!
 		result
 	end
+	
+	#call = <identifier> <open_parenthesis> { call_parameter_list } <close_parenthesis>
+  #call_parameter_list = call_parameter | ( call_parameter_list <comma> call_parameter )
+  #call_parameter = <identifier>
+	
+	def call
+	  expect_current :identifier
+	  function_name = current.value
+	  next!
+	  expect_current :open_parenthesis
+	  next!
+	  result = FunctionCallNode.new(function_name, current.type == :close_parenthesis ? nil : call_parameter)
+	  expect_current :close_parenthesis
+	  next!
+	  result
+  end
+  
+  def call_parameter
+    left = expression
+    right = nil
+    if current.type == :comma
+      next!
+      right = call_parameter
+    end
+    ParametersNode.new(left, right)
+  end
 	
 	private
 	
@@ -149,7 +185,7 @@ class MathParser
 		end
 		class MultiplicationNode < Node
 			def evaluate(engine)
-				left.evaluate(engine) * right.evaluate(engine)
+			  left.evaluate(engine) * right.evaluate(engine)
 			end
 		end
 		class DivisionNode < Node
@@ -167,6 +203,23 @@ class MathParser
 		    left.evaluate(engine) % right.evaluate(engine)
 	    end
 	  end
+	  
+	  class FunctionCallNode < Node
+	    def evaluate(engine)
+	      parameters = right ? right.to_a.collect { |p| p.evaluate(engine) } : []
+	      engine.call(left, *parameters)
+      end
+    end
+    
+    class ParametersNode < Node
+	    def evaluate(engine)
+	      left.evaluate(engine)
+      end
+      
+      def to_a
+        [left]
+      end
+    end
 
 	  class ParseError < StandardError
 	    def initialize(message)
