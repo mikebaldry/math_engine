@@ -203,12 +203,10 @@ describe "Parsing expressions" do
     subject.left.right.left.left.left.value.should == 2
     subject.left.right.left.left.right.class.should == MathParser::FunctionCallNode
     subject.left.right.left.left.right.left.should == :sin
-    subject.left.right.left.left.right.right.should == MathParser::ParametersNode
-    subject.left.right.left.left.right.right.left.should == MathParser::ExpressionNode
-    subject.left.right.left.left.right.right.left.left.should == MathParser::LiteralNumberNode
+    subject.left.right.left.left.right.right.class.should == MathParser::ParametersNode
+    subject.left.right.left.left.right.right.left.class.should == MathParser::ExpressionNode
+    subject.left.right.left.left.right.right.left.left.class.should == MathParser::LiteralNumberNode
     subject.left.right.left.left.right.right.left.left.value.should == 4
-    
-    
   end
 end
 

@@ -16,6 +16,7 @@ describe "Evaluating expressions" do
 		evaluate("2 * 2 ^ 5").should == 64
 		evaluate("(2 * 2) ^ 5").should == 1024
 		evaluate("2 * 2 % 5").should == 4
+		evaluate("2 * 4 / 3").should be_close 2.66666666666667, 0.001
 	end
 	
 	it "should have the correct values when using variables" do
@@ -27,6 +28,10 @@ describe "Evaluating expressions" do
   it "should be able to call functions and use the result in calculations" do
     subject = MathEngine.new
     subject.define(:double_it, lambda { |x| x * 2 })
+    subject.define(:add_em, lambda { |x, y| x + y })
     subject.evaluate("10 * double_it(2)").should == 40
+    subject.evaluate("10 * double_it(2 * 4 / 3)").should be_close 53.3333333334, 0.001
+    subject.evaluate("10 * double_it(2 * 4 / 3 + (5 ^ 5))").should be_close 62553.333333, 0.001
+    subject.evaluate("double_it(5) + add_em(10, add_em(2.5, 2.5)) + 5").should == 30
   end
 end

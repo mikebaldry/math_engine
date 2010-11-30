@@ -9,9 +9,8 @@ class MathParser
 		#term = exp { ( <multiplication> | <division> ) exp }
 		#exp = factor { ( <exponent> | <modulus> ) factor }
 		#factor = <call> | <identifier> | <number> | ( <open_parenthesis> expression <close_parenthesis> )
-    #call = <identifier> <open_parenthesis> { call_parameter_list } <close_parenthesis>
-    #call_parameter_list = call_parameter | ( call_parameter_list <comma> call_parameter )
-    #call_parameter = <identifier>
+    #call = <identifier> <open_parenthesis> { call_parameter } <close_parenthesis>
+    #call_parameter = <expression> { <comma> call_parameter }
 		statement
 	end
 	
@@ -25,7 +24,7 @@ class MathParser
 	    expect_current :assignment
 	    next!
 	    result = AssignmentNode.new(IdentifierNode.new(variable_name), expression)
-	  else 
+	  else
 		  result = expression
 		end
 		next!
@@ -41,7 +40,8 @@ class MathParser
 			next!
 			left = node_type.new(left, term)
 		end
-		ExpressionNode.new(result || left)
+		result = ExpressionNode.new(result || left)
+		result
 	end
 	
 	def term
@@ -72,11 +72,7 @@ class MathParser
 	    next!
 	    return result
 	  elsif current.type == :identifier
-	    if peek.type == :open_parenthesis
-	      result = call
-	    else
-	      result = IdentifierNode.new(current.value)
-      end
+	    result = peek.type == :open_parenthesis ? call : IdentifierNode.new(current.value)
       next!
       return result
     end
@@ -89,10 +85,6 @@ class MathParser
 		result
 	end
 	
-	#call = <identifier> <open_parenthesis> { call_parameter_list } <close_parenthesis>
-  #call_parameter_list = call_parameter | ( call_parameter_list <comma> call_parameter )
-  #call_parameter = <identifier>
-	
 	def call
 	  expect_current :identifier
 	  function_name = current.value
@@ -101,7 +93,6 @@ class MathParser
 	  next!
 	  result = FunctionCallNode.new(function_name, current.type == :close_parenthesis ? nil : call_parameter)
 	  expect_current :close_parenthesis
-	  next!
 	  result
   end
   
@@ -206,6 +197,7 @@ class MathParser
 	  
 	  class FunctionCallNode < Node
 	    def evaluate(engine)
+	      debugger
 	      parameters = right ? right.to_a.collect { |p| p.evaluate(engine) } : []
 	      engine.call(left, *parameters)
       end
@@ -217,7 +209,7 @@ class MathParser
       end
       
       def to_a
-        [left]
+        [left] + (right ? right.to_a : [])
       end
     end
 
