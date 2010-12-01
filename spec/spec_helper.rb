@@ -6,12 +6,12 @@ def evaluate(line)
 end
 
 def build_ast(line)
-	MathParser.new(MathLexer.new(line)).parse
+	MathEngine::Parser.new(MathEngine::Lexer.new(line)).parse
 end
 
 def print_ast(node, indent = "")
-  puts "#{node.class.name} #{node.is_a?(MathParser::Node) ? "" : "(#{node})"}"
-  return unless node.is_a? MathParser::Node
+  puts "#{node.class.name} #{node.is_a?(MathEngine::Node) ? "" : "(#{node})"}"
+  return unless node.is_a? MathEngine::Node
   
   print "#{indent}left: " if node.left
   print_ast(node.left, indent + "  ") if node.left
