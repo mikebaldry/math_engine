@@ -21,8 +21,8 @@ spec = Gem::Specification.new do |s|
 
   # Change these as appropriate
   s.name              = "math_engine"
-  s.version           = "0.1.3"
-  s.summary           = "Evaluates simple mathematical expressions"
+  s.version           = "0.2.0"
+  s.summary           = "Evaluates mathematical expressions"
   s.author            = "Michael Baldry"
   s.email             = "michael.baldry@uswitch.com"
   s.homepage          = "http://www.forwardtechnology.co.uk"
