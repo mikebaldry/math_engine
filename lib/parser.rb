@@ -18,7 +18,7 @@ class MathEngine
   	end
 	
   	private
-	
+
   	def statement
   	  next!
   	  if current.type == :identifier && peek.type == :assignment

@@ -36,7 +36,7 @@ describe "Calling functions" do
   it "should raise an error if a function is called with the wrong number of arguments" do
     subject = MathEngine.new
     subject.define :abc, lambda { |x, y, z| x + y + z }
-    lambda { subject.call(:abc, 123) }.should raise_error MathEngine::ArgumentCountError
+    lambda { subject.call(:abc, 123) }.should raise_error ArgumentError
   end
   
   it "should be possible to define a function with a lambda and call it" do

@@ -38,15 +38,4 @@ class MathEngine
       "Unable to modify value of constant '#{@constant_name}'"
     end
   end
-  
-  class ArgumentCountError < StandardError
-    def initialize(function_name, arguments_taken, arguments_called_with)
-      @function_name = function_name
-      @arguments_taken, @arguments_called_with = arguments_taken, arguments_called_with
-    end
-  
-    def to_s
-      "Function '#{@function_name}' takes #{@arguments_taken} but was called with #{@arguments_called_with}"
-    end
-  end
 end

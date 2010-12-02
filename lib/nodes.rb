@@ -6,10 +6,6 @@ class MathEngine
   	def initialize(left, right = nil)
   		@left, @right = left, right
   	end
-
-  	def evaluate(engine)
-  		raise "Evaluate not overridden in #{self.class.name}"
-  	end
   end
 
   class LiteralNumberNode < Node

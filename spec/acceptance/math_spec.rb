@@ -32,6 +32,6 @@ describe "Evaluating expressions" do
     subject.evaluate("10 * double_it(2)").should == 40
     subject.evaluate("10 * double_it(2 * 4 / 3)").should be_close 53.3333333334, 0.001
     subject.evaluate("10 * double_it(2 * 4 / 3 + (5 ^ 5))").should be_close 62553.333333, 0.001
-    subject.evaluate("double_it(5) + add_em(10, add_em(2.5, 2.5)) + 5").should == 30
+    subject.evaluate("double_it(5) + add_em(10, add_em(2.5, 2.5)) + 5 + add_em(20, 20)").should == 70
   end
 end

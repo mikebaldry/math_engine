@@ -5,7 +5,8 @@ require File.expand_path(File.join(File.dirname(__FILE__), 'parser'))
 class MathEngine
   def initialize()
     @variables = {}
-    @functions = {}
+    @dyn_library = Class.new.new
+    @libraries = [@dyn_library]
   end
   
   def evaluate(expression)
@@ -30,14 +31,21 @@ class MathEngine
     @functions.keys.collect { |k| k.to_s }.sort.collect { |k| k.to_sym }
   end
   
-  def call(function_name, *parameters)
-    raise UnknownFunctionError.new(function_name) unless @functions.keys.include? function_name
-    func = @functions[function_name]
-    raise ArgumentCountError.new(function_name, func.arity, parameters.length) if func.arity != parameters.length
-    func.call(*parameters)
+  def call(name, *parameters)
+    cls = class_for_function(name)
+    raise UnknownFunctionError.new(name) unless cls
+    cls.send name, *parameters
   end
   
-  def define(function_name, func = nil, &block)
-    @functions[function_name] = func ? func : block
+  def define(name, func = nil, &block)
+    @dyn_library.class.send :define_method, name.to_sym do |*args|
+      func ? func.call(*args) : block.call(*args)
+    end
+  end
+  
+  private
+  
+  def class_for_function(name)
+    @libraries.detect { |l| l.methods.include? name.to_s }
   end
 end
