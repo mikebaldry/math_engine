@@ -16,8 +16,15 @@ describe "Getting and setting variables" do
     subject = MathEngine.new
     subject.set(:blah, 123)
     subject.set(:abc, 10)
-    
     subject.variables.should == [:abc, :blah]
+  end
+  
+  it "should diferentiate between variables and constants" do
+    subject = MathEngine.new
+    subject.set(:blah, 123)
+    subject.set(:PI, 3.14159)
+    subject.variables.should == [:blah]
+    subject.constants.should == [:PI]
   end
   
   it "should raise an error when trying to set an constant that is already defined" do
@@ -59,5 +66,11 @@ describe "Calling functions" do
       x + y
     end
     subject.call(:add_em, 2, 2).should == 4
+  end
+  
+  it "should be able to pull in a library and use its functions" do
+    subject = MathEngine.new
+    subject.include_library Math
+    subject.evaluate("sin(0.5)").should be_close 0.4794255386, 0.001
   end
 end

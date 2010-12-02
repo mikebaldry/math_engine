@@ -24,11 +24,11 @@ class MathEngine
   end
   
   def variables
-    @variables.keys.collect { |k| k.to_s }.sort.collect { |k| k.to_sym }
+    @variables.keys.collect { |k| k.to_s }.reject { |v| v.downcase != v }.sort.collect { |k| k.to_sym }
   end
   
-  def functions
-    @functions.keys.collect { |k| k.to_s }.sort.collect { |k| k.to_sym }
+  def constants
+    @variables.keys.collect { |k| k.to_s }.reject { |v| v.upcase != v }.sort.collect { |k| k.to_sym }
   end
   
   def call(name, *parameters)
@@ -41,6 +41,10 @@ class MathEngine
     @dyn_library.class.send :define_method, name.to_sym do |*args|
       func ? func.call(*args) : block.call(*args)
     end
+  end
+  
+  def include_library(library)
+    @libraries << library
   end
   
   private
