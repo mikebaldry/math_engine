@@ -6,7 +6,7 @@ Install with
 
 	gem install math_engine
 
-The only dependency is on my other gem, lexr[http://github.com/michaelbaldry/lexr], which is really lightweight and has no external dependencies.
+The only dependency is on my other gem, [lexr](http://github.com/michaelbaldry/lexr), which is really lightweight and has no external dependencies.
 
 ## An example: Expressions
 
