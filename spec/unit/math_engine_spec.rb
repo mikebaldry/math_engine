@@ -70,7 +70,19 @@ describe "Calling functions" do
   
   it "should be able to pull in a library and use its functions" do
     subject = MathEngine.new
-    subject.include_library Math
+    
+    Blah = Class.new do
+      def test
+        12345
+      end
+    end
+    
+    subject.include_library Blah.new
+    subject.evaluate("test()").should == 12345
+  end
+  
+  it "should be able to use functions from Math by default" do
+    subject = MathEngine.new
     subject.evaluate("sin(0.5)").should be_close 0.4794255386, 0.001
   end
 end

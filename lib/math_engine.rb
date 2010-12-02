@@ -6,7 +6,7 @@ class MathEngine
   def initialize()
     @variables = {}
     @dyn_library = Class.new.new
-    @libraries = [@dyn_library]
+    @libraries = [@dyn_library, Math]
   end
   
   def evaluate(expression)
