@@ -50,6 +50,6 @@ class MathEngine
   private
   
   def class_for_function(name)
-    @libraries.detect { |l| l.methods.include? name.to_s }
+    @libraries.detect { |l| l.methods.map{|m| m.to_s}.include? name.to_s }
   end
 end
