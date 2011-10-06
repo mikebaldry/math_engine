@@ -6,19 +6,19 @@ describe "Getting and setting variables" do
 		subject.set(:blah, 123)
 		subject.get(:blah).should == 123
 	end
-	
+
 	it "should raise an error if a variable isn't gettable" do
 	  subject = MathEngine.new
 	  lambda { subject.get(:abc) }.should raise_error MathEngine::UnknownVariableError
   end
-  
+
   it "should return a list of variable names that are defined" do
     subject = MathEngine.new
     subject.set(:blah, 123)
     subject.set(:abc, 10)
     subject.variables.should == [:abc, :blah]
   end
-  
+
   it "should diferentiate between variables and constants" do
     subject = MathEngine.new
     subject.set(:blah, 123)
@@ -26,7 +26,7 @@ describe "Getting and setting variables" do
     subject.variables.should == [:blah]
     subject.constants.should == [:PI]
   end
-  
+
   it "should raise an error when trying to set an constant that is already defined" do
     subject = MathEngine.new
     subject.set(:PI, 3.14159)
@@ -39,13 +39,13 @@ describe "Calling functions" do
     subject = MathEngine.new
     lambda { subject.call(:this_function_dont_exist) }.should raise_error MathEngine::UnknownFunctionError
   end
-  
+
   it "should raise an error if a function is called with the wrong number of arguments" do
     subject = MathEngine.new
     subject.define :abc, lambda { |x, y, z| x + y + z }
     lambda { subject.call(:abc, 123) }.should raise_error ArgumentError
   end
-  
+
   it "should be possible to define a function with a lambda and call it" do
     subject = MathEngine.new
     subject.define(:double_it, lambda { |x| x * 2 })
@@ -54,35 +54,35 @@ describe "Calling functions" do
     subject.define(:add_em, lambda { |x, y| x + y })
     subject.call(:add_em, 2, 2).should == 4
   end
-  
+
   it "should be possible to define a function with a block and call it" do
     subject = MathEngine.new
     subject.define :double_it do |x|
       x * 2
     end
     subject.call(:double_it, 2).should == 4
-    
+
     subject.define :add_em do |x, y|
       x + y
     end
     subject.call(:add_em, 2, 2).should == 4
   end
-  
+
   it "should be able to pull in a library and use its functions" do
     subject = MathEngine.new
-    
+
     Blah = Class.new do
       def test
         12345
       end
     end
-    
+
     subject.include_library Blah.new
     subject.evaluate("test()").should == 12345
   end
-  
+
   it "should be able to use functions from Math by default" do
     subject = MathEngine.new
-    subject.evaluate("sin(0.5)").should be_close 0.4794255386, 0.001
+    subject.evaluate("sin(0.5)").should be_within(0.4794255386).of(0.001)
   end
 end
