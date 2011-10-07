@@ -1,12 +1,16 @@
 require 'rspec'
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'math_engine'))
 
+RSpec.configure do |config|
+  config.filter_run :focus => true
+end
+
 def evaluate(line)
   MathEngine.new.evaluate(line)
 end
 
 def build_ast(line)
-	MathEngine::Parser.new(MathEngine::Lexer.new(line)).parse
+  MathEngine::Parser.new(MathEngine::Lexer.new(line)).parse
 end
 
 def print_ast(node, indent = "")
