@@ -9,37 +9,37 @@ In addtional MathEgine is parse from normal equation to latex format,
   addition, subtraction, multiplication, division, exponent and sqrt
 
 # Install in rails
-        Added in your Gemfile
-        gem "math_egine"
-        gem "lexr"
-        bundle install
+	
+	Added in your Gemfile
+	gem 'math_egine'
+	
+	bundle install
 
 # Install with
-
 	gem install math_engine
-        gem install lexr
 
 The only dependency is on my other gem, [lexr](http://github.com/michaelbaldry/lexr), which is really lightweight and has no external dependencies.
 
+	gem install lexr
+
 
 # Latex parse
-    In ruby
-      require 'rubygems'
-      require 'math_engine'
+	In ruby
+		require 'rubygems'
+		require 'math_engine'
+		engine = MathEngine.new
+		
+		puts "#{engine.parse_to_tex("(55 - 5) / (2.5 ^ (3 + 1))")
+	
+	results in an output of
+		$ \frac{(55 -5)}{25.5 ^ (3 + 1)} $
+		
+	In rails 3
+		It provide a helper methods calls tex and evaluate
+		To use:
 
-      engine = MathEngine.new
-
-      puts "#{engine.parse_to_tex("(55 - 5) / (2.5 ^ (3 + 1))")
-
-    results in an output of
-	$ \frac{(55 -5)}{25.5 ^ (3 + 1)} $
-
-    In rails 3
-      It provide a helper method calls tex
-      To use:
-
-      <%= tex("(55 - 5) / (2.5 ^ (3 + 1))") %>
-      <%= evaluate("(55 - 5) / (2.5 ^ (3 + 1))") %>
+		<%= tex("(55 - 5) / (2.5 ^ (3 + 1))") %>
+		<%= evaluate("(55 - 5) / (2.5 ^ (3 + 1))") %>
 
 
 ## An example: Expressions
@@ -86,7 +86,10 @@ if you missed a closing parenthesis, had an operator where it wasn't meant to be
 and that is pretty much every feature so far. Please let me know of any bugs or additions that you'd like to see
 
 ## Colaborator
-  Diego Marczal dmarczal@gmail.com
+  	Diego Marczal dmarczal@gmail.com
+
+## Author of math_engie
+	https://github.com/michaelbaldry/math_engine.git
 
 ## License
 
