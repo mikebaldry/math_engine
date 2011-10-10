@@ -39,6 +39,7 @@ The only dependency is on my other gem, [lexr](http://github.com/michaelbaldry/l
       To use:
 
       <%= tex("(55 - 5) / (2.5 ^ (3 + 1))") %>
+      <%= evaluate("(55 - 5) / (2.5 ^ (3 + 1))") %>
 
 
 ## An example: Expressions

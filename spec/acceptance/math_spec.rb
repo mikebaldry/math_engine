@@ -3,6 +3,10 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec_helper'))
 describe "Evaluating expressions" do
   it "should have the correct value for some simple calculations" do
     evaluate("1 + 1").should == 2
+    evaluate("1+1").should == 2
+    evaluate("1-1").should == 0
+    evaluate("11+11").should == 22
+    #evaluate("1--1").should == 2
     evaluate("2 - 1").should == 1
     evaluate("2 * 2").should == 4
     evaluate("4 / 2").should == 2
@@ -20,13 +24,13 @@ describe "Evaluating expressions" do
   end
 
   it "should have the correct values when using variables" do
-    subject = MathEngine.new
+    subject = MathEngine::MathEngine.new
     subject.evaluate("x = 1 * 2").should == 2
     subject.evaluate("x + 1").should == 3
   end
 
   it "should be able to call functions and use the result in calculations" do
-    subject = MathEngine.new
+    subject = MathEngine::MathEngine.new
     subject.define(:double_it, lambda { |x| x * 2 })
     subject.define(:add_em, lambda { |x, y| x + y })
     subject.evaluate("10 * double_it(2)").should == 40
@@ -39,7 +43,7 @@ end
 describe "Latex convert" do
 
   before(:each) do
-    @engine = MathEngine.new
+    @engine = MathEngine::MathEngine.new
   end
 
   it "should convert a simple expression to latex" do
@@ -47,16 +51,16 @@ describe "Latex convert" do
   end
 
   it "should convert a expression with fraction to latex" do
-    @engine.parse_to_tex("1 / 2").should == "$\frac{1}{2}$"
+    @engine.parse_to_tex("1 / 2").should == "$\\frac{1}{2}$"
   end
 
   it "should convert a expression with fraction with expression to latex" do
-    @engine.parse_to_tex("1 / 2 + 3").should == "$\frac{1}{2} + 3$"
-    @engine.parse_to_tex("1 /(2 + 3)").should == "$\frac{1}{(2 + 3)}$"
+    @engine.parse_to_tex("1 / 2 + 3").should == "$\\frac{1}{2} + 3$"
+    @engine.parse_to_tex("1 /(2 + 3)").should == "$\\frac{1}{(2 + 3)}$"
   end
 
   it "should convert a expression with fraction nested to latex" do
-    @engine.parse_to_tex("1 / 2 / 3").should == "$\frac{\frac{1}{2}}{3}$"
+    @engine.parse_to_tex("1 / 2 / 3").should == "$\\frac{\\frac{1}{2}}{3}$"
   end
 
   it "should convert a expression with exponent to latex" do
@@ -77,9 +81,10 @@ describe "Latex convert" do
   it "should convert a expression with sqrt function", :focus do
     @engine.define(:sqrt)
     @engine.parse_to_tex("sqrt(2)").should == "$\\sqrt 2$"
+    @engine.parse_to_tex("sqrt(n)").should == "$\\sqrt n$"
     @engine.parse_to_tex("sqrt(2 + 2)").should == "$\\sqrt(2 + 2)$"
-    @engine.parse_to_tex("sqrt(2 + (2 + 3))").should == "$\\sqrt(2 + (2 - 3))$"
-    @engine.parse_to_tex("sqrt(2 ^ (2 + 3))").should == "$\\sqrt(2 ^ {(2 + 3))}$"
+    @engine.parse_to_tex("sqrt(2 + (2 - 3))").should == "$\\sqrt(2 + (2 - 3))$"
+    @engine.parse_to_tex("sqrt(2 ^ (2 + 3))").should == "$\\sqrt(2 ^ {(2 + 3)})$"
   end
 
 end

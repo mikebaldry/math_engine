@@ -2,14 +2,14 @@
 
 Gem::Specification.new do |s|
   s.name = %q{math_engine}
-  s.version = "0.2.0"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{Michael Baldry}]
-  s.date = %q{2011-10-06}
+  s.date = %q{2011-10-08}
   s.email = %q{michael.baldry@uswitch.com}
   s.extra_rdoc_files = [%q{README.md}]
-  s.files = [%q{README.md}, %q{spec}, %q{lib/lexer.rb}, %q{lib/parser.rb}, %q{lib/math_engine.rb}, %q{lib/nodes.rb}, %q{lib/errors.rb}]
+  s.files = [%q{README.md}, %q{spec}, %q{lib/helpers}, %q{lib/helpers/views_helpers.rb}, %q{lib/math_engine.rb}, %q{lib/math_engine}, %q{lib/math_engine/railtie.rb}, %q{lib/math_engine/lexer.rb}, %q{lib/math_engine/parser.rb}, %q{lib/math_engine/math_engine.rb}, %q{lib/math_engine/nodes.rb}, %q{lib/math_engine/errors.rb}]
   s.homepage = %q{http://www.forwardtechnology.co.uk}
   s.rdoc_options = [%q{--main}, %q{README.md}]
   s.require_paths = [%q{lib}]
