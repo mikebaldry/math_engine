@@ -11,7 +11,7 @@ In addtional MathEgine is parse from normal equation to latex format,
 # Install in rails
 	
 	Added in your Gemfile
-	gem 'math_egine'
+	gem 'math_engine', '~> 0.3.0', :git => 'git@github.com:dmarczal/math_engine.git'
 	
 	bundle install
 
