@@ -38,6 +38,7 @@ describe "Evaluating expressions" do
     subject.evaluate("10 * double_it(2 * 4 / 3 + (5 ^ 5))").should be_within(62553.333333).of(0.001)
     subject.evaluate("double_it(5) + add_em(10, add_em(2.5, 2.5)) + 5 + add_em(20, 20)").should == 70
   end
+
 end
 
 describe "Latex convert" do
@@ -87,5 +88,8 @@ describe "Latex convert" do
     @engine.parse_to_tex("sqrt(2 ^ (2 + 3))").should == "$\\sqrt(2 ^ {(2 + 3)})$"
   end
 
+  it "should parse complex expression" do
+    @engine.parse_to_tex("l*3+(l*3/2)*((3/2)^(n)-1)/3/2-1").should == "$l * 3 + \\frac{\\frac{(\\frac{l * 3}{2}) * ({(\\frac{3}{2})} ^ {(n)} - 1)}{3}}{2} - 1$"
+  end
 end
 
