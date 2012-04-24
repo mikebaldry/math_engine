@@ -1,16 +1,11 @@
-require "rubygems"
-require "rake/gempackagetask"
-require "rake/rdoctask"
+require 'rspec/core/rake_task'
+require "rubygems/package_task"
 
-require "spec"
-require "spec/rake/spectask"
-Spec::Rake::SpecTask.new do |t|
-  t.spec_opts = %w(--format specdoc --colour)
-  t.libs = ["spec"]
+RSpec::Core::RakeTask.new(:spec) do |t|
+  t.fail_on_error = false
+  t.rspec_opts = %w(--format d --colour)
 end
-
-
-task :default => ["spec"]
+task :default => :spec
 
 # This builds the actual gem. For details of what all these options
 # mean, and other ones you can add, check the documentation here:
@@ -21,7 +16,7 @@ spec = Gem::Specification.new do |s|
 
   # Change these as appropriate
   s.name              = "math_engine"
-  s.version           = "0.2.0"
+  s.version           = "0.3.0"
   s.summary           = "Evaluates mathematical expressions"
   s.author            = "Michael Baldry"
   s.email             = "michael.baldry@uswitch.com"
@@ -34,7 +29,7 @@ spec = Gem::Specification.new do |s|
   # Add any extra files to include in the gem (like your README)
   s.files             = %w(README.md) + Dir.glob("{spec,lib/**/*}")
   s.require_paths     = ["lib"]
-  
+
   s.add_dependency('lexr', '>= 0.2.2')
 
   # If your tests use any gems, include them here
@@ -46,9 +41,9 @@ end
 # be automatically building a gem for this project. If you're not
 # using GitHub, edit as appropriate.
 #
-# To publish your gem online, install the 'gemcutter' gem; Read more 
+# To publish your gem online, install the 'gemcutter' gem; Read more
 # about that here: http://gemcutter.org/pages/gem_docs
-Rake::GemPackageTask.new(spec) do |pkg|
+Gem::PackageTask.new(spec) do |pkg|
   pkg.gem_spec = spec
 end
 
@@ -57,14 +52,14 @@ task :gemspec do
   file = File.dirname(__FILE__) + "/#{spec.name}.gemspec"
   File.open(file, "w") {|f| f << spec.to_ruby }
 end
-
 task :package => :gemspec
 
-# Generate documentation
-Rake::RDocTask.new do |rd|
-  
-  rd.rdoc_files.include("lib/**/*.rb")
-  rd.rdoc_dir = "rdoc"
+gem 'rdoc'
+require 'rdoc/task'
+
+RDoc::Task.new do |rdoc|
+  rdoc.main = "README.md"
+  rdoc.rdoc_files.include("README.md", "lib/**/*.rb")
 end
 
 desc 'Clear out RDoc and generated packages'
