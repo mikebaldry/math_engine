@@ -3,10 +3,11 @@ require File.expand_path(File.join(File.dirname(__FILE__), 'errors'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'lexer'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'parser'))
 class MathEngine
-  def initialize()
+  def initialize(case_sensitive = true)
     @variables = {}
     @dyn_library = Class.new.new
     @libraries = [@dyn_library, Math]
+    @case_sensitive = case_sensitive
   end
   
   def evaluate(expression)
@@ -14,13 +15,22 @@ class MathEngine
   end
   
   def set(variable_name, value)
-    raise UnableToModifyConstant.new(variable_name) if @variables.keys.include? variable_name and variable_name.to_s == variable_name.to_s.upcase
+    if @case_sensitive
+      raise UnableToModifyConstant.new(variable_name) if constants.include? variable_name
+    else
+      raise UnableToModifyConstant.new(variable_name) if constants.include? variable_name.upcase
+    end
     @variables[variable_name] = value
   end
   
   def get(variable_name)
-    raise UnknownVariableError.new(variable_name) unless @variables.keys.include? variable_name
-    @variables[variable_name]
+    if @case_sensitive
+      raise UnknownVariableError.new(variable_name) unless @variables.keys.include? variable_name
+      @variables[variable_name]
+    else
+      raise UnknownVariableError.new(variable_name) unless (variables.include?(variable_name) || constants.include?(variable_name.upcase))
+       @variables.each_with_object({}) {|(k,v),h| h[k.downcase]=v}[variable_name.downcase]
+    end
   end
   
   def variables
@@ -32,12 +42,14 @@ class MathEngine
   end
   
   def call(name, *parameters)
+    name = name.downcase unless @case_sensitive
     cls = class_for_function(name)
     raise UnknownFunctionError.new(name) unless cls
     cls.send name, *parameters
   end
   
   def define(name, func = nil, &block)
+    name = name.downcase unless @case_sensitive
     @dyn_library.class.send :define_method, name.to_sym do |*args|
       func ? func.call(*args) : block.call(*args)
     end
