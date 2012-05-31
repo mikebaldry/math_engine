@@ -1,6 +1,6 @@
 require "rubygems"
-require "rake/gempackagetask"
-require "rake/rdoctask"
+require "rubygems/package_task"
+require "rdoc/task"
 
 require "spec"
 require "spec/rake/spectask"
@@ -21,11 +21,11 @@ spec = Gem::Specification.new do |s|
 
   # Change these as appropriate
   s.name              = "math_engine"
-  s.version           = "0.2.0"
+  s.version           = "0.3.0"
   s.summary           = "Evaluates mathematical expressions"
-  s.author            = "Michael Baldry"
-  s.email             = "michael.baldry@uswitch.com"
-  s.homepage          = "http://www.forwardtechnology.co.uk"
+  s.author            = "Mario de la Ossa"
+  s.email             = "mariodelaossa@gmail.com"
+  s.homepage          = "https://github.com/mdelaossa/math_engine"
 
   s.has_rdoc          = true
   s.extra_rdoc_files  = %w(README.md)
