@@ -1,83 +1,40 @@
 class MathEngine
   class Node
-	  attr_reader :left, :right
-  	alias :value :left
+    attr_reader :left, :right
+    alias :value :left
 
-  	def initialize(left, right = nil)
-  		@left, @right = left, right
-  	end
-  end
-
-  class LiteralNumberNode < Node
-  	def evaluate(engine)
-  		value
-  	end
-  end
-
-  class ExpressionNode < Node
-  	def evaluate(engine)
-  		left.evaluate(engine)
-  	end
-  end
-
-  class IdentifierNode < Node
-    def evaluate(engine)
-      engine.get value
+    def initialize(left, right = nil)
+      @left, @right = left, right
+    end
+    
+    def evaluate(evaluator)
+      evaluator.send(method_name, self)
+    end
+    
+    private
+    
+    def method_name
+      class_name = self.class.name[0..-5]
+      class_name = class_name[class_name.rindex("::")+2..-1] if class_name.rindex("::")
+      method_name = class_name.gsub(%r{([A-Z\d]+)([A-Z][a-z])},'\1_\2').gsub(%r{([a-z\d])([A-Z])},'\1_\2').downcase  
     end
   end
 
-  class AssignmentNode < Node
-  	def evaluate(engine)
-  		result = right.evaluate(engine)
-  		engine.set(left.value, result)
-  		result
-  	end
-  end
+  class LiteralNumberNode < Node ; end
+  class ExpressionNode < Node ; end
+  class IdentifierNode < Node ; end
+  class AssignmentNode < Node ; end
 
-  class AdditionNode < Node
-  	def evaluate(engine)
-  		left.evaluate(engine) + right.evaluate(engine)
-  	end
-  end
+  class AdditionNode < Node ; end
+  class SubtractionNode < Node ; end
+  class MultiplicationNode < Node ; end
+  class DivisionNode < Node ; end
+  class ExponentNode < Node ; end
+  class ModulusNode < Node ; end
 
-  class SubtractionNode < Node
-  	def evaluate(engine)
-  		left.evaluate(engine) - right.evaluate(engine)
-  	end
-  end
-  class MultiplicationNode < Node
-  	def evaluate(engine)
-  	  left.evaluate(engine) * right.evaluate(engine)
-  	end
-  end
-  class DivisionNode < Node
-  	def evaluate(engine)
-  		left.evaluate(engine) / right.evaluate(engine)
-  	end
-  end
-  class ExponentNode < Node
-  	def evaluate(engine)
-  		left.evaluate(engine) ** right.evaluate(engine)
-  	end
-  end
-  class ModulusNode < Node
-    def evaluate(engine)
-      left.evaluate(engine) % right.evaluate(engine)
-    end
-  end
-
-  class FunctionCallNode < Node
-    def evaluate(engine)
-      parameters = right ? right.to_a.collect { |p| p.evaluate(engine) } : []
-      engine.call(left, *parameters)
-    end
-  end
+  class FunctionCallNode < Node ; end
 
   class ParametersNode < Node
-    def evaluate(engine)
-      left.evaluate(engine)
-    end
-
     def to_a
       [left] + (right ? right.to_a : [])
     end

@@ -2,6 +2,8 @@ require 'mathn'
 require File.expand_path(File.join(File.dirname(__FILE__), 'errors'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'lexer'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'parser'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'calculate_evaluator'))
+
 class MathEngine
   def initialize()
     @variables = {}
@@ -9,8 +11,8 @@ class MathEngine
     @libraries = [@dyn_library, Math]
   end
   
-  def evaluate(expression)
-    Parser.new(Lexer.new(expression)).parse.evaluate(self)
+  def evaluate(expression, evaluator = CalculateEvaluator.new(self))
+    Parser.new(Lexer.new(expression)).parse.evaluate(evaluator)
   end
   
   def set(variable_name, value)
