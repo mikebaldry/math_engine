@@ -208,6 +208,20 @@ describe "Parsing expressions" do
     subject.left.right.left.left.right.right.left.left.class.should == MathEngine::LiteralNumberNode
     subject.left.right.left.left.right.right.left.left.value.should == 4
   end
+  
+  it "should parse numbers correctly when no whitespace separates them (bug)" do
+	  subject = build_ast("10 * (2+3)")
+	  subject.class.should == MathEngine::ExpressionNode
+		subject.left.class.should == MathEngine::MultiplicationNode
+		subject.left.left.class.should == MathEngine::LiteralNumberNode
+		subject.left.left.value.should == 10
+	  subject.left.right.class.should == MathEngine::ExpressionNode
+		subject.left.right.left.class.should == MathEngine::AdditionNode
+		subject.left.right.left.left.class.should == MathEngine::LiteralNumberNode
+		subject.left.right.left.left.value.should == 2
+		subject.left.right.left.right.class.should == MathEngine::LiteralNumberNode
+		subject.left.right.left.right.value.should == 3
+  end
 end
 
 describe "Invalid syntax" do

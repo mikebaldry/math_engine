@@ -10,7 +10,7 @@ describe "Evaluating expressions" do
 		evaluate("10 * (2 + 4)").should == 60
 		evaluate("10 + 10 + 10 + 10").should == 40
 		evaluate("10 * 10 + 5 / 5").should == 101
-		evaluate("3.14159 * (200 / 180) + 1").should be_close 4.49, 0.001 
+		evaluate("3.14159 * (200 / 180) + 1").should be_close 4.49, 0.001
 		evaluate("10 * (3 * 2) + (55 - 5) / (2.5 * 2)").should == 70
 		evaluate("10 * (3 * 2) + (55 - 5) / (2.5 * (3 + 1))").should == 65
 		evaluate("2 * 2 ^ 5").should == 64
