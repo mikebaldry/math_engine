@@ -51,6 +51,10 @@ if you missed a closing parenthesis, had an operator where it wasn't meant to be
 	
 and that is pretty much every feature so far. Please let me know of any bugs or additions that you'd like to see!
 
+## Contributors
+
+Mario de la Ossa (mdelaossa): Handling of complex numbers and upgraded to work with 1.9.X
+
 ## License
 
 See the LICENSE file included with the distribution for licensing and
