@@ -1,6 +1,6 @@
 require "rubygems"
-require "rubygems/package_task"
-require "rdoc/task"
+require "rake/gempackagetask"
+require "rake/rdoctask"
 
 require "spec"
 require "spec/rake/spectask"
@@ -15,25 +15,25 @@ task :default => ["spec"]
 # This builds the actual gem. For details of what all these options
 # mean, and other ones you can add, check the documentation here:
 #
-#   http://rubygems.org/read/chapter/20
+# http://rubygems.org/read/chapter/20
 #
 spec = Gem::Specification.new do |s|
 
   # Change these as appropriate
-  s.name              = "math_engine"
-  s.version           = "0.3.0"
-  s.summary           = "Evaluates mathematical expressions"
-  s.author            = "Mario de la Ossa"
-  s.email             = "mariodelaossa@gmail.com"
-  s.homepage          = "https://github.com/mdelaossa/math_engine"
+  s.name = "math_engine"
+  s.version = "0.2.0"
+  s.summary = "Evaluates mathematical expressions"
+  s.author = "Michael Baldry"
+  s.email = "michael.baldry@uswitch.com"
+  s.homepage = "http://www.forwardtechnology.co.uk"
 
-  s.has_rdoc          = true
-  s.extra_rdoc_files  = %w(README.md)
-  s.rdoc_options      = %w(--main README.md)
+  s.has_rdoc = true
+  s.extra_rdoc_files = %w(README.md)
+  s.rdoc_options = %w(--main README.md)
 
   # Add any extra files to include in the gem (like your README)
-  s.files             = %w(README.md) + Dir.glob("{spec,lib/**/*}")
-  s.require_paths     = ["lib"]
+  s.files = %w(README.md) + Dir.glob("{spec,lib/**/*}")
+  s.require_paths = ["lib"]
   
   s.add_dependency('lexr', '>= 0.2.2')
 
@@ -46,7 +46,7 @@ end
 # be automatically building a gem for this project. If you're not
 # using GitHub, edit as appropriate.
 #
-# To publish your gem online, install the 'gemcutter' gem; Read more 
+# To publish your gem online, install the 'gemcutter' gem; Read more
 # about that here: http://gemcutter.org/pages/gem_docs
 Rake::GemPackageTask.new(spec) do |pkg|
   pkg.gem_spec = spec
