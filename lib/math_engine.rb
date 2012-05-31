@@ -3,6 +3,8 @@ require File.expand_path(File.join(File.dirname(__FILE__), 'errors'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'lexer'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'parser'))
 class MathEngine
+  attr_accessor :case_sensitive
+
   def initialize(case_sensitive = true)
     @variables = {}
     @dyn_library = Class.new.new
