@@ -1,7 +1,7 @@
+require 'mathn'
 require File.expand_path(File.join(File.dirname(__FILE__), 'errors'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'lexer'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'parser'))
-
 class MathEngine
   def initialize()
     @variables = {}
@@ -50,6 +50,6 @@ class MathEngine
   private
   
   def class_for_function(name)
-    @libraries.detect { |l| l.methods.map{|m| m.to_s}.include? name.to_s }
+    @libraries.detect { |l| l.methods.include? name }
   end
 end
