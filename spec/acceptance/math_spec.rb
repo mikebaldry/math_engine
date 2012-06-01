@@ -27,8 +27,8 @@ describe "Evaluating expressions" do
   
   it "should be able to call functions and use the result in calculations" do
     subject = MathEngine.new
-    subject.define(:double_it, lambda { |x| x * 2 })
-    subject.define(:add_em, lambda { |x, y| x + y })
+    subject.context.define(:double_it, lambda { |x| x * 2 })
+    subject.context.define(:add_em, lambda { |x, y| x + y })
     subject.evaluate("10 * double_it(2)").should == 40
     subject.evaluate("10 * double_it(2 * 4 / 3)").should be_close 53.3333333334, 0.001
     subject.evaluate("10 * double_it(2 * 4 / 3 + (5 ^ 5))").should be_close 62553.333333, 0.001
