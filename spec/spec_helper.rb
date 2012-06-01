@@ -6,7 +6,7 @@ def evaluate(line)
 end
 
 def build_ast(line)
-	MathEngine::Parser.new(MathEngine::Lexer.new(line)).parse
+  MathEngine::Parser.new(MathEngine::Lexer.new(line)).parse
 end
 
 def print_ast(node, indent = "")

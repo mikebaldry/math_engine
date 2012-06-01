@@ -1,67 +1,67 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec_helper'))
 
 describe "Parsing expressions" do
-	it "should have the correct ast for simple addition" do
-		subject = build_ast("1 + 2")
-		subject.class.should == MathEngine::ExpressionNode
-		subject.left.class.should == MathEngine::AdditionNode
-		subject.left.left.class.should == MathEngine::LiteralNumberNode
-		subject.left.left.value.should == 1
-		subject.left.right.class.should == MathEngine::LiteralNumberNode
-		subject.left.right.value.should == 2
-	end
-	
-	it "should have the correct ast for stringed addition" do
-		subject = build_ast("1 + 2 + 3")
-		subject.class.should == MathEngine::ExpressionNode
-		subject.left.class.should == MathEngine::AdditionNode
-		subject.left.left.class.should == MathEngine::AdditionNode
-		subject.left.left.left.class.should == MathEngine::LiteralNumberNode
-		subject.left.left.left.value.should == 1
-		subject.left.left.right.class.should == MathEngine::LiteralNumberNode
-		subject.left.left.right.value.should == 2
-		subject.left.right.class.should == MathEngine::LiteralNumberNode
-		subject.left.right.value.should == 3
-	end
-	
-	it "should handle precedence of multiplication correctly" do
+  it "should have the correct ast for simple addition" do
+    subject = build_ast("1 + 2")
+    subject.class.should == MathEngine::ExpressionNode
+    subject.left.class.should == MathEngine::AdditionNode
+    subject.left.left.class.should == MathEngine::LiteralNumberNode
+    subject.left.left.value.should == 1
+    subject.left.right.class.should == MathEngine::LiteralNumberNode
+    subject.left.right.value.should == 2
+  end
+  
+  it "should have the correct ast for stringed addition" do
+    subject = build_ast("1 + 2 + 3")
+    subject.class.should == MathEngine::ExpressionNode
+    subject.left.class.should == MathEngine::AdditionNode
+    subject.left.left.class.should == MathEngine::AdditionNode
+    subject.left.left.left.class.should == MathEngine::LiteralNumberNode
+    subject.left.left.left.value.should == 1
+    subject.left.left.right.class.should == MathEngine::LiteralNumberNode
+    subject.left.left.right.value.should == 2
+    subject.left.right.class.should == MathEngine::LiteralNumberNode
+    subject.left.right.value.should == 3
+  end
+  
+  it "should handle precedence of multiplication correctly" do
     subject = build_ast("10 * 2 - 3")
     subject.class.should == MathEngine::ExpressionNode
-		subject.left.class.should == MathEngine::SubtractionNode
-		subject.left.left.class.should == MathEngine::MultiplicationNode
-		subject.left.left.left.class.should == MathEngine::LiteralNumberNode
-		subject.left.left.left.value.should == 10
-		subject.left.left.right.class.should == MathEngine::LiteralNumberNode
-		subject.left.left.right.value.should == 2
-		subject.left.right.class.should == MathEngine::LiteralNumberNode
-		subject.left.right.value.should == 3
+    subject.left.class.should == MathEngine::SubtractionNode
+    subject.left.left.class.should == MathEngine::MultiplicationNode
+    subject.left.left.left.class.should == MathEngine::LiteralNumberNode
+    subject.left.left.left.value.should == 10
+    subject.left.left.right.class.should == MathEngine::LiteralNumberNode
+    subject.left.left.right.value.should == 2
+    subject.left.right.class.should == MathEngine::LiteralNumberNode
+    subject.left.right.value.should == 3
   end
   
   it "should handle precedence of division correctly" do
     subject = build_ast("10 / 2 - 3")
     subject.class.should == MathEngine::ExpressionNode
-		subject.left.class.should == MathEngine::SubtractionNode
-		subject.left.left.class.should == MathEngine::DivisionNode
-		subject.left.left.left.class.should == MathEngine::LiteralNumberNode
-		subject.left.left.left.value.should == 10
-		subject.left.left.right.class.should == MathEngine::LiteralNumberNode
-		subject.left.left.right.value.should == 2
-		subject.left.right.class.should == MathEngine::LiteralNumberNode
-		subject.left.right.value.should == 3
+    subject.left.class.should == MathEngine::SubtractionNode
+    subject.left.left.class.should == MathEngine::DivisionNode
+    subject.left.left.left.class.should == MathEngine::LiteralNumberNode
+    subject.left.left.left.value.should == 10
+    subject.left.left.right.class.should == MathEngine::LiteralNumberNode
+    subject.left.left.right.value.should == 2
+    subject.left.right.class.should == MathEngine::LiteralNumberNode
+    subject.left.right.value.should == 3
   end
-	
-	it "should handle precedence of enclosed expressions" do
-	  subject = build_ast("10 * (2 + 3)")
-	  subject.class.should == MathEngine::ExpressionNode
-		subject.left.class.should == MathEngine::MultiplicationNode
-		subject.left.left.class.should == MathEngine::LiteralNumberNode
-		subject.left.left.value.should == 10
-	  subject.left.right.class.should == MathEngine::ExpressionNode
-		subject.left.right.left.class.should == MathEngine::AdditionNode
-		subject.left.right.left.left.class.should == MathEngine::LiteralNumberNode
-		subject.left.right.left.left.value.should == 2
-		subject.left.right.left.right.class.should == MathEngine::LiteralNumberNode
-		subject.left.right.left.right.value.should == 3
+  
+  it "should handle precedence of enclosed expressions" do
+    subject = build_ast("10 * (2 + 3)")
+    subject.class.should == MathEngine::ExpressionNode
+    subject.left.class.should == MathEngine::MultiplicationNode
+    subject.left.left.class.should == MathEngine::LiteralNumberNode
+    subject.left.left.value.should == 10
+    subject.left.right.class.should == MathEngine::ExpressionNode
+    subject.left.right.left.class.should == MathEngine::AdditionNode
+    subject.left.right.left.left.class.should == MathEngine::LiteralNumberNode
+    subject.left.right.left.left.value.should == 2
+    subject.left.right.left.right.class.should == MathEngine::LiteralNumberNode
+    subject.left.right.left.right.value.should == 3
   end
   
   it "should handle assignment of expressions" do
@@ -210,17 +210,17 @@ describe "Parsing expressions" do
   end
   
   it "should parse numbers correctly when no whitespace separates them (bug)" do
-	  subject = build_ast("10 * (2+3)")
-	  subject.class.should == MathEngine::ExpressionNode
-		subject.left.class.should == MathEngine::MultiplicationNode
-		subject.left.left.class.should == MathEngine::LiteralNumberNode
-		subject.left.left.value.should == 10
-	  subject.left.right.class.should == MathEngine::ExpressionNode
-		subject.left.right.left.class.should == MathEngine::AdditionNode
-		subject.left.right.left.left.class.should == MathEngine::LiteralNumberNode
-		subject.left.right.left.left.value.should == 2
-		subject.left.right.left.right.class.should == MathEngine::LiteralNumberNode
-		subject.left.right.left.right.value.should == 3
+    subject = build_ast("10 * (2+3)")
+    subject.class.should == MathEngine::ExpressionNode
+    subject.left.class.should == MathEngine::MultiplicationNode
+    subject.left.left.class.should == MathEngine::LiteralNumberNode
+    subject.left.left.value.should == 10
+    subject.left.right.class.should == MathEngine::ExpressionNode
+    subject.left.right.left.class.should == MathEngine::AdditionNode
+    subject.left.right.left.left.class.should == MathEngine::LiteralNumberNode
+    subject.left.right.left.left.value.should == 2
+    subject.left.right.left.right.class.should == MathEngine::LiteralNumberNode
+    subject.left.right.left.right.value.should == 3
   end
 end
 
