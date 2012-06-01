@@ -1,8 +1,11 @@
-require 'mathn'
-require File.expand_path(File.join(File.dirname(__FILE__), 'errors'))
-require File.expand_path(File.join(File.dirname(__FILE__), 'lexer'))
-require File.expand_path(File.join(File.dirname(__FILE__), 'parser'))
-require File.expand_path(File.join(File.dirname(__FILE__), 'calculate_evaluator'))
+require "mathn"
+
+require_relative "errors"
+require_relative "lexer"
+require_relative "parser"
+
+require_relative "evaluators/finders"
+require_relative "evaluators/calculate"
 
 class MathEngine
   def initialize()
@@ -11,12 +14,13 @@ class MathEngine
     @libraries = [@dyn_library, Math]
   end
   
-  def evaluate(expression, evaluator = CalculateEvaluator.new(self))
+  def evaluate(expression, evaluator_name = :calculate)
+    evaluator = MathEngine::Evaluators.find_by_name(evaluator_name).new(self)
     Parser.new(Lexer.new(expression)).parse.evaluate(evaluator)
   end
   
   def set(variable_name, value)
-    raise UnableToModifyConstant.new(variable_name) if @variables.keys.include? variable_name and variable_name.to_s == variable_name.to_s.upcase
+    raise UnableToModifyConstantError.new(variable_name) if @variables.keys.include? variable_name and variable_name.to_s == variable_name.to_s.upcase
     @variables[variable_name] = value
   end
   

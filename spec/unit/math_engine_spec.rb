@@ -30,7 +30,7 @@ describe "Getting and setting variables" do
   it "should raise an error when trying to set an constant that is already defined" do
     subject = MathEngine.new
     subject.set(:PI, 3.14159)
-    lambda { subject.set(:PI, 3.14159) }.should raise_error MathEngine::UnableToModifyConstant
+    lambda { subject.set(:PI, 3.14159) }.should raise_error MathEngine::UnableToModifyConstantError
   end
 end
 

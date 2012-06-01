@@ -29,13 +29,28 @@ class MathEngine
     end
   end
   
-  class UnableToModifyConstant < StandardError
+  class UnableToModifyConstantError < StandardError
     def initialize(constant_name)
       @constant_name = constant_name
     end
 
     def to_s
       "Unable to modify value of constant '#{@constant_name}'"
+    end
+  end
+  
+  class UnknownEvaluatorError < StandardError
+    def initialize(evaluator_name, expected_const)
+      @evaluator_name = evaluator_name
+      @expected_const = expected_const
+    end
+    
+    def to_s
+      "Unable to find an evaluator called #{@evaluator_name}(#{@expected_const})"
+    end
+    
+    def ==(other)
+      self.to_s == other.to_s
     end
   end
 end
