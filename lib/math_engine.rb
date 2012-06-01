@@ -8,14 +8,18 @@ require_relative "evaluators/finders"
 require_relative "evaluators/calculate"
 
 class MathEngine
+  DEFAULT_OPTIONS = {evaluator: :calculate,
+                     case_sensetive: true}
+  
   def initialize()
     @variables = {}
     @dyn_library = Class.new.new
     @libraries = [@dyn_library, Math]
   end
   
-  def evaluate(expression, evaluator_name = :calculate)
-    evaluator = MathEngine::Evaluators.find_by_name(evaluator_name).new(self)
+  def evaluate(expression, opts = {})
+    opts = DEFAULT_OPTIONS.merge(opts)
+    evaluator = MathEngine::Evaluators.find_by_name(opts[:evaluator]).new(self)
     Parser.new(Lexer.new(expression)).parse.evaluate(evaluator)
   end
   
