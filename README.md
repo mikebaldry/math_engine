@@ -25,7 +25,7 @@ results in an output of
 
 extending is easy using functions, you can add single functions using MathEngine.define
 	
-	engine.define :add_em do |x, y|
+	engine.context.define :add_em do |x, y|
 		x + y
 	end
 	
@@ -37,7 +37,7 @@ or you can write all your functions in a class and add the class
 		end
 	end
 
-	engine.include_library SomeFunctions.new
+	engine.context.include_library SomeFunctions.new
 	
 and calling them with
 
