@@ -1,9 +1,14 @@
+GIT
+  remote: http://github.com/michaelbaldry/lexr.git
+  revision: fdf91214e005de3fd499e94793561ff007de5934
+  specs:
+    lexr (0.3.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
     archive-tar-minitar (0.5.2)
     columnize (0.3.6)
-    lexr (0.2.3)
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
     rspec (1.3.2)
@@ -22,6 +27,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  lexr (>= 0.2.3)
+  lexr (>= 0.3.0)!
   rspec (= 1.3.2)
   ruby-debug19

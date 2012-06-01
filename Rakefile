@@ -35,7 +35,7 @@ spec = Gem::Specification.new do |s|
   s.files = %w(README.md) + Dir.glob("{spec,lib/**/*}")
   s.require_paths = ["lib"]
   
-  s.add_dependency('lexr', '>= 0.2.2')
+  s.add_dependency('lexr', '>= 0.3.0')
 
   # If your tests use any gems, include them here
   s.add_development_dependency("rspec")

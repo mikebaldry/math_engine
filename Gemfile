@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "lexr", ">= 0.2.3"
+gem "lexr", ">= 0.3.0", git: "http://github.com/michaelbaldry/lexr.git"
 
 group :development, :test do
   gem "rspec", "1.3.2"

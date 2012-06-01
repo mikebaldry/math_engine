@@ -230,7 +230,7 @@ describe "Invalid syntax" do
   end
   
   it "should raise an exception when an extra operator is specified" do
-    lambda { build_ast("1 ** 2") }.should raise_error MathEngine::ParseError
+    lambda { build_ast("1 ** 2") }.should raise_error Lexr::UnmatchableTextError
   end
   
   it "should raise an exception when missing a closing parenthesis" do
