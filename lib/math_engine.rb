@@ -10,7 +10,7 @@ require_relative "evaluators/calculate"
 
 class MathEngine
   DEFAULT_OPTIONS = {evaluator: :calculate,
-                     case_sensetive: true}
+                     case_sensitive: true}
   
   def initialize(opts = {})
     @opts = DEFAULT_OPTIONS.merge(opts)

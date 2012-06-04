@@ -83,32 +83,32 @@ end
 
 describe "Contextual scope for variables and functions with case sensetivity turned off" do
   it "should be able to set a variable and get it again" do
-    subject = MathEngine::Context.new(case_sensetive: false)
+    subject = MathEngine::Context.new(case_sensitive: false)
     subject.set("teSt", "abc123")
     subject.get("test").should == "abc123"
   end
   
   it "should be able to change a variable and get it again" do
-    subject = MathEngine::Context.new(case_sensetive: false)
+    subject = MathEngine::Context.new(case_sensitive: false)
     subject.set("tesT", "abc123")
     subject.set("test", "abc12345")
     subject.get("test").should == "abc12345"
   end
   
   it "should be able to set a constant (all uppercase) and get it again" do
-    subject = MathEngine::Context.new(case_sensetive: false)
+    subject = MathEngine::Context.new(case_sensitive: false)
     subject.set("PI", 3.14159)
     subject.get("Pi").should == 3.14159
   end
   
   it "should not be possible to set a constant (all uppercase) more than once" do
-    subject = MathEngine::Context.new(case_sensetive: false)
+    subject = MathEngine::Context.new(case_sensitive: false)
     subject.set("PI", 3.14159)
     lambda { subject.set("Pi", 3.2) }.should raise_error MathEngine::UnableToModifyConstantError
   end
   
   it "should diferentiate between variables and constants" do
-    subject = MathEngine::Context.new(case_sensetive: false)
+    subject = MathEngine::Context.new(case_sensitive: false)
     subject.set("blah", 123)
     subject.set("PI", 3.14159)
     subject.variables.should == ["blah"]

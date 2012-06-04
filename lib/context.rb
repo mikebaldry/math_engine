@@ -1,6 +1,6 @@
 class MathEngine
   class Context
-    DEFAULT_OPTIONS = {case_sensetive: true}
+    DEFAULT_OPTIONS = {case_sensitive: true}
     
     def initialize(opts = {})
       @opts = DEFAULT_OPTIONS.merge(opts)
@@ -51,7 +51,7 @@ class MathEngine
     end
     
     def key(variable_name)
-      return variable_name if @opts[:case_sensetive]
+      return variable_name if @opts[:case_sensitive]
       result = @variables.keys.select { |key| key.downcase == variable_name.downcase }.first
       result || variable_name
     end
