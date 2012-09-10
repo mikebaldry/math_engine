@@ -1,4 +1,5 @@
-require "mathn"
+#require "mathn"
+require "bigdecimal"
 
 require_relative "errors"
 require_relative "lexer"
