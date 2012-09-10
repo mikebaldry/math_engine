@@ -2,15 +2,15 @@
 
 Gem::Specification.new do |s|
   s.name = "math_engine"
-  s.version = "0.5.0"
+  s.version = "0.6.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Michael Baldry"]
-  s.date = "2012-09-03"
-  s.email = "michael.baldry@uswitch.com"
+  s.date = "2012-09-10"
+  s.email = "michael@brightbits.co.uk"
   s.extra_rdoc_files = ["README.md"]
   s.files = ["README.md", "spec", "lib/context.rb", "lib/errors.rb", "lib/evaluators", "lib/evaluators/calculate.rb", "lib/evaluators/finders.rb", "lib/lexer.rb", "lib/math_engine.rb", "lib/nodes.rb", "lib/parser.rb"]
-  s.homepage = "http://www.forwardtechnology.co.uk"
+  s.homepage = "http://www.brightbits.co.uk"
   s.rdoc_options = ["--main", "README.md"]
   s.require_paths = ["lib"]
   s.rubygems_version = "1.8.24"
