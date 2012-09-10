@@ -7,6 +7,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Michael Baldry"]
   s.date = "2012-09-10"
+  s.description = "Lightweight matematical expression parser that is easy to extend"
   s.email = "michael@brightbits.co.uk"
   s.extra_rdoc_files = ["README.md"]
   s.files = ["README.md", "spec", "lib/context.rb", "lib/errors.rb", "lib/evaluators", "lib/evaluators/calculate.rb", "lib/evaluators/finders.rb", "lib/lexer.rb", "lib/math_engine.rb", "lib/nodes.rb", "lib/parser.rb"]
@@ -14,7 +15,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--main", "README.md"]
   s.require_paths = ["lib"]
   s.rubygems_version = "1.8.24"
-  s.summary = "Evaluates mathematical expressions"
+  s.summary = "Lightweight mathematical expression parser"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
