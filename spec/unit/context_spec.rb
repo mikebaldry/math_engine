@@ -75,6 +75,24 @@ describe "Contextual scope for variables and functions" do
     subject.call(:test).should == 12345
   end
   
+  it "should be able to pull in a library and use its functions, even if they are dynamic, via method_missing" do
+    subject = MathEngine::Context.new
+    
+    Blah = Class.new do
+      def method_missing(sym, *args, &block)
+        return 12345 if sym == :test_12345
+        raise NoMethodError(sym)
+      end
+      
+      def respond_to_missing?(sym, include_private)
+        sym == :test_12345
+      end
+    end
+    
+    subject.include_library Blah.new
+    subject.call(:test_12345).should == 12345
+  end
+  
   it "should be able to use functions from Math by default" do
     subject = MathEngine::Context.new
     subject.call(:sin, 0.5).should be_close 0.4794255386, 0.001

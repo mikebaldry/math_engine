@@ -29,7 +29,7 @@ class MathEngine
     def call(function_name, *args)
       library = library_for_function(function_name)
       raise UnknownFunctionError.new(function_name) unless library
-      library.send(function_name, *args)
+      library.send(function_name.to_sym, *args)
     end
     
     def include_library(library)
@@ -57,7 +57,7 @@ class MathEngine
     end
     
     def library_for_function(function_name)
-      @libraries.detect { |l| l.methods.include? function_name.to_sym }
+      @libraries.detect { |l| l.respond_to?(function_name.to_sym) }
     end
   end
 end
