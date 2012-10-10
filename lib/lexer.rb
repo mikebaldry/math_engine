@@ -1,3 +1,4 @@
+require "lexr"
 class MathEngine
   Lexer = Lexr.that {
     ignores /\s/ => :whitespace
