@@ -1,7 +1,7 @@
-require 'spec'
+require "rubygems"
+require "bundler"
 
-require 'bundler'
-Bundler.require
+Bundler.require :default, :test
 
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'math_engine'))
 

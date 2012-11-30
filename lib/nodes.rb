@@ -22,6 +22,7 @@ class MathEngine
 
   class LiteralNumberNode < Node ; end
   class ExpressionNode < Node ; end
+  class ParenthesisedExpressionNode < Node ; end
   class IdentifierNode < Node ; end
   class AssignmentNode < Node ; end
 

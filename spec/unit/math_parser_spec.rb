@@ -56,12 +56,13 @@ describe "Parsing expressions" do
     subject.left.class.should == MathEngine::MultiplicationNode
     subject.left.left.class.should == MathEngine::LiteralNumberNode
     subject.left.left.value.should == 10
-    subject.left.right.class.should == MathEngine::ExpressionNode
-    subject.left.right.left.class.should == MathEngine::AdditionNode
-    subject.left.right.left.left.class.should == MathEngine::LiteralNumberNode
-    subject.left.right.left.left.value.should == 2
-    subject.left.right.left.right.class.should == MathEngine::LiteralNumberNode
-    subject.left.right.left.right.value.should == 3
+    subject.left.right.class.should == MathEngine::ParenthesisedExpressionNode
+    subject.left.right.left.class.should == MathEngine::ExpressionNode
+    subject.left.right.left.left.class.should == MathEngine::AdditionNode
+    subject.left.right.left.left.left.class.should == MathEngine::LiteralNumberNode
+    subject.left.right.left.left.left.value.should == 2
+    subject.left.right.left.left.right.class.should == MathEngine::LiteralNumberNode
+    subject.left.right.left.left.right.value.should == 3
   end
   
   it "should handle assignment of expressions" do
@@ -215,12 +216,13 @@ describe "Parsing expressions" do
     subject.left.class.should == MathEngine::MultiplicationNode
     subject.left.left.class.should == MathEngine::LiteralNumberNode
     subject.left.left.value.should == 10
-    subject.left.right.class.should == MathEngine::ExpressionNode
-    subject.left.right.left.class.should == MathEngine::AdditionNode
-    subject.left.right.left.left.class.should == MathEngine::LiteralNumberNode
-    subject.left.right.left.left.value.should == 2
-    subject.left.right.left.right.class.should == MathEngine::LiteralNumberNode
-    subject.left.right.left.right.value.should == 3
+    subject.left.right.class.should == MathEngine::ParenthesisedExpressionNode
+    subject.left.right.left.class.should == MathEngine::ExpressionNode
+    subject.left.right.left.left.class.should == MathEngine::AdditionNode
+    subject.left.right.left.left.left.class.should == MathEngine::LiteralNumberNode
+    subject.left.right.left.left.left.value.should == 2
+    subject.left.right.left.left.right.class.should == MathEngine::LiteralNumberNode
+    subject.left.right.left.left.right.value.should == 3
   end
 end
 

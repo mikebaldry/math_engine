@@ -82,7 +82,7 @@ class MathEngine
     
       expect_current :open_parenthesis, "number, variable or open_parenthesis"
       next!
-      result = expression
+      result = MathEngine::ParenthesisedExpressionNode.new(expression)
       expect_current :close_parenthesis
       next!
       result

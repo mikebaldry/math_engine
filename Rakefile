@@ -21,7 +21,7 @@ spec = Gem::Specification.new do |s|
 
   # Change these as appropriate
   s.name = "math_engine"
-  s.version = "0.6.3"
+  s.version = "0.6.4"
   s.summary = "Lightweight mathematical expression parser"
   s.description = "Lightweight matematical expression parser that is easy to extend"
   s.author = "Michael Baldry"

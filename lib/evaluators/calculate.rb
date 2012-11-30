@@ -12,6 +12,10 @@ class MathEngine
       def expression(node)
         node.left.evaluate(self)
       end
+
+      def parenthesised_expression(node)
+        expression(node)
+      end
     
       def identifier(node)
         @context.get node.value
