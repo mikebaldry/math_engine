@@ -2,16 +2,6 @@ require "rubygems"
 require "rubygems/package_task"
 require "rdoc/task"
 
-require "spec"
-require "spec/rake/spectask"
-Spec::Rake::SpecTask.new do |t|
-  t.spec_opts = %w(--format specdoc --colour)
-  t.libs = ["spec"]
-end
-
-
-task :default => ["spec"]
-
 # This builds the actual gem. For details of what all these options
 # mean, and other ones you can add, check the documentation here:
 #
@@ -21,12 +11,12 @@ spec = Gem::Specification.new do |s|
 
   # Change these as appropriate
   s.name = "math_engine"
-  s.version = "0.6.4"
+  s.version = "0.7.0"
   s.summary = "Lightweight mathematical expression parser"
   s.description = "Lightweight matematical expression parser that is easy to extend"
   s.author = "Michael Baldry"
-  s.email = "michael@brightbits.co.uk"
-  s.homepage = "http://www.brightbits.co.uk"
+  s.email = "mikeyb@buyapowa.com"
+  s.homepage = "http://tech.buyapowa.com"
 
   s.has_rdoc = true
   s.extra_rdoc_files = %w(README.md)
@@ -35,8 +25,8 @@ spec = Gem::Specification.new do |s|
   # Add any extra files to include in the gem (like your README)
   s.files = %w(README.md) + Dir.glob("{spec,lib/**/*}")
   s.require_paths = ["lib"]
-  
-  s.add_dependency('lexr', '>= 0.3.1')
+
+  s.add_dependency('lexr', '>= 0.4.0')
 
   # If your tests use any gems, include them here
   s.add_development_dependency("rspec")
@@ -63,7 +53,7 @@ task :package => :gemspec
 
 # Generate documentation
 Rake::RDocTask.new do |rd|
-  
+
   rd.rdoc_files.include("lib/**/*.rb")
   rd.rdoc_dir = "rdoc"
 end

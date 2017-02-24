@@ -68,7 +68,7 @@ class MathEngine
       end
       result || left
     end
-    
+
     def factor
       if current.type == :number
         result = MathEngine::LiteralNumberNode.new(current.value)
@@ -79,7 +79,7 @@ class MathEngine
         next!
         return result
       end
-    
+
       expect_current :open_parenthesis, "number, variable or open_parenthesis"
       next!
       result = MathEngine::ParenthesisedExpressionNode.new(expression)
@@ -98,7 +98,7 @@ class MathEngine
       expect_current :close_parenthesis
       result
     end
-  
+
     def call_parameter
       left = expression
       right = nil
@@ -112,7 +112,7 @@ class MathEngine
     def current
       @lexer.current
     end
-  
+
     def peek
       @lexer.peek
     end
